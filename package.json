@@ -1,0 +1,22 @@
+{
+  "name": "cyberpunk-snake-multiplayer",
+  "version": "1.0.0",
+  "description": "赛博朋克风格的多人贪吃蛇游戏",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.2"
+  },
+  "keywords": [
+    "game",
+    "snake",
+    "multiplayer",
+    "cyberpunk",
+    "websocket"
+  ],
+  "author": "",
+  "license": "MIT"
+}

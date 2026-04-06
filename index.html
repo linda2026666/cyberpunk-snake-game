@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赛博朋克贪吃蛇 - 多人游戏</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="game-title">赛博朋克贪吃蛇 - 多人游戏</h1>
+        
+        <!-- 玩家账号输入 -->
+        <div class="player-setup">
+            <h3>玩家设置</h3>
+            <div class="player-inputs">
+                <div class="player-input">
+                    <label>玩家1账号:</label>
+                    <input type="text" id="player1" placeholder="请输入账号" value="玩家1">
+                </div>
+                <div class="player-input">
+                    <label>玩家2账号:</label>
+                    <input type="text" id="player2" placeholder="请输入账号" value="玩家2">
+                </div>
+            </div>
+        </div>
+        
+        <!-- 游戏区域 -->
+        <div class="game-areas">
+            <div class="game-area">
+                <div class="player-name" id="player1Name">玩家1 (本地)</div>
+                <div class="game-info">
+                    <div class="level">关卡: <span class="level-span">1</span></div>
+                    <div class="score">分数: <span class="score-span">0</span></div>
+                    <div class="timer">时间: <span class="timer-span">60</span>秒</div>
+                </div>
+                <canvas class="gameCanvas" width="300" height="300"></canvas>
+                <div class="game-controls">
+                    <div class="speed-selector">
+                        <label>速度:</label>
+                        <select class="speedSelect">
+                            <option value="baby">婴儿</option>
+                            <option value="ultra_slow">小小小朋友</option>
+                            <option value="super_slow">小小朋友</option>
+                            <option value="slow">小朋友</option>
+                            <option value="medium" selected>大朋友</option>
+                            <option value="fast">高手</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-info">
+                    <p>控制: WASD键</p>
+                </div>
+            </div>
+            
+            <div class="game-area">
+                <div class="player-name" id="player2Name">玩家2 (在线)</div>
+                <div class="game-info">
+                    <div class="level">关卡: <span class="level-span">1</span></div>
+                    <div class="score">分数: <span class="score-span">0</span></div>
+                    <div class="timer">时间: <span class="timer-span">60</span>秒</div>
+                </div>
+                <canvas class="gameCanvas" width="300" height="300"></canvas>
+                <div class="game-controls">
+                    <div class="speed-selector">
+                        <label>速度:</label>
+                        <select class="speedSelect">
+                            <option value="baby">婴儿</option>
+                            <option value="ultra_slow">小小小朋友</option>
+                            <option value="super_slow">小小朋友</option>
+                            <option value="slow">小朋友</option>
+                            <option value="medium" selected>大朋友</option>
+                            <option value="fast">高手</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-info">
+                    <p>控制: 方向键</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 游戏控制 -->
+        <div class="global-controls">
+            <button id="startAllBtn">开始所有游戏</button>
+            <button id="pauseAllBtn">暂停所有游戏</button>
+            <button id="resetAllBtn">重置所有游戏</button>
+        </div>
+        
+        <!-- 排行榜 -->
+        <div class="leaderboard">
+            <h3>排行榜</h3>
+            <div class="leaderboard-content">
+                <div class="leaderboard-item first">
+                    <span class="rank">1</span>
+                    <span class="player">-</span>
+                    <span class="score">0</span>
+                </div>
+                <div class="leaderboard-item second">
+                    <span class="rank">2</span>
+                    <span class="player">-</span>
+                    <span class="score">0</span>
+                </div>
+                <div class="leaderboard-item third">
+                    <span class="rank">3</span>
+                    <span class="player">-</span>
+                    <span class="score">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 结果公布 -->
+        <div class="result-display">
+            <h3>比赛结果</h3>
+            <div id="resultContent" class="result-content">
+                <p>游戏结束后将显示最终结果</p>
+            </div>
+            <button id="calculateResultBtn">计算结果</button>
+        </div>
+        
+        <!-- 游戏玩法 -->
+        <div class="game-rules">
+            <h3>游戏玩法</h3>
+            <ul>
+                <li><strong>基本操作</strong>：
+                    <ul>
+                        <li>玩家1：WASD键控制</li>
+                        <li>玩家2：方向键控制</li>
+                        <li>玩家3：IJKL键控制</li>
+                        <li>玩家4：TFGH键控制</li>
+                    </ul>
+                </li>
+                <li><strong>得分规则</strong>：每吃一个食物获得10分，同时奖励5秒时间</li>
+                <li><strong>关卡系统</strong>：每吃5个食物升级一个关卡，速度会逐渐加快</li>
+                <li><strong>时间奖励</strong>：从第2关开始，每升级一关获得当前级别×5秒的时间奖励</li>
+                <li><strong>胜利音乐</strong>：从第2关开始，每通一关播放胜利音乐</li>
+                <li><strong>游戏结束条件</strong>：撞到墙壁、撞到自身或时间耗尽</li>
+                <li><strong>目标</strong>：在规定时间内获得尽可能高的分数，挑战更高的关卡</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- 胜利音乐 -->
+    <audio id="victoryMusic" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- 游戏脚本 -->
+    <script src="script.js"></script>
+</body>
+</html>
